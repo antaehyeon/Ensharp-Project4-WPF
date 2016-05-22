@@ -10,7 +10,7 @@
         <ScrollViewer x:Name="sv" HorizontalAlignment="Left" Height="310" Margin="10,80,0,0" VerticalAlignment="Top" Width="858" CanContentScroll="True">
             <WrapPanel x:Name="wp" Width="822"/>
         </ScrollViewer>
-        <Button x:Name="btn_back" Content="뒤로가기" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="188" Height="48" FontWeight="Bold" FontSize="20" Click="btn_back_Click"/>
+        <Button x:Name="btn_image_back" Content="뒤로가기" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="188" Height="48" FontWeight="Bold" FontSize="20" Click="btn_back_Click"/>
         <TextBox x:Name="textBox_search" HorizontalAlignment="Left" Height="48" Margin="203,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="465" FontSize="20" SpellCheck.IsEnabled="True"/>
         <Button x:Name="btn_search" Content="검색" HorizontalAlignment="Left" Margin="733,10,0,0" VerticalAlignment="Top" Width="135" Height="48" FontSize="20" FontWeight="Bold" Click="btn_search_Click"/>
         <ComboBox x:Name="cb_image_number" HorizontalAlignment="Left" Margin="673,35,0,0" VerticalAlignment="Top" Width="55" Height="23" SelectedIndex="0" BorderThickness="1">

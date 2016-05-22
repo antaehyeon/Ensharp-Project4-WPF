@@ -8,7 +8,7 @@
              d:DesignHeight="400" d:DesignWidth="900">
     <Grid>
         <Button x:Name="btn_image_search" Content="이미지 검색" Margin="315,124,0,0" Width="244" Height="62" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_image_search_Click"/>
-        <Button x:Name="btn_recent" Content="최근 검색어" HorizontalAlignment="Left" Margin="315,206,0,0" VerticalAlignment="Top" Width="244" Height="62"/>
+        <Button x:Name="btn_recent" Content="최근 검색어" HorizontalAlignment="Left" Margin="315,206,0,0" VerticalAlignment="Top" Width="244" Height="62" Click="btn_recent_Click"/>
 
     </Grid>
 </UserControl>
