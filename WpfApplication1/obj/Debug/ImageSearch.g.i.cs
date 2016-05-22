@@ -159,12 +159,6 @@ namespace WpfApplication1 {
             return;
             case 4:
             this.textBox_search = ((System.Windows.Controls.TextBox)(target));
-            
-            #line 14 "..\..\ImageSearch.xaml"
-            this.textBox_search.TextChanged += new System.Windows.Controls.TextChangedEventHandler(this.textBox_search_TextChanged);
-            
-            #line default
-            #line hidden
             return;
             case 5:
             this.btn_search = ((System.Windows.Controls.Button)(target));

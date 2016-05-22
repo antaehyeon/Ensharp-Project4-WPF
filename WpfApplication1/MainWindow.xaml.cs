@@ -56,14 +56,18 @@ namespace WpfApplication1
         // [ImageSearch] 검색 버튼을 눌렀을 때
         private void btn_search_Click(object sender, RoutedEventArgs e)
         {
+            // wrapPanel 부분 초기화
             imageSearch.wp.Children.Clear();
+
             // keyword : 검색키워드
             // imageNum : 이미지출력갯수
             string keyword = "";
             string imageNum = "";
 
+            // textBox에 입력된 문자 받아오는 부분
             keyword = imageSearch.textBox_search.Text;
 
+            // 이미지 갯수 받아오는 부분
             ComboBoxItem currentItem = imageSearch.cb_image_number.SelectedItem as ComboBoxItem;
             imageNum = currentItem.Content.ToString();
 
@@ -77,6 +81,7 @@ namespace WpfApplication1
             // 이미지 경로를 저장하기 위한 List
             XmlNodeList imageUrlList = doc.GetElementsByTagName("thumbnail");
 
+            // 이미지를 저장하기 위한 List
             List<Image> imageList = new List<Image>();
 
             for (int i = 0; i < Convert.ToInt32(imageNum); i++)
