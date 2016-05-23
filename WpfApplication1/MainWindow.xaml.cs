@@ -27,12 +27,14 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        ImageWindow imagewindow = new ImageWindow();
         MainControl mainControl = new MainControl();
         ImageSearch imageSearch = new ImageSearch();
         RecentControl recentControl = new RecentControl();
         ComboBox combobox = new ComboBox();
         MySqlConnection conn;
         MySqlCommand cmd;
+        List<Image> imageList;
 
         // 메인 창
         public MainWindow()
@@ -52,9 +54,15 @@ namespace WpfApplication1
             String strConn = "Server=localhost;Database=ensharp;Uid=root;Pwd=xogus1696;";
             conn = new MySqlConnection(strConn);
             cmd = new MySqlCommand();
+
+            // 이미지 썸네일을 저장하기 위한 List
+            imageList = new List<Image>();
+
+            imageSearch.wp.MouseDown += Image_MouseDown;
+
         }
 
-        // 이미지 검색 버튼을 눌렀을 때
+        // [MainWindow] 이미지 검색 버튼을 눌렀을 때
         private void btn_image_search_Click(object sender, RoutedEventArgs e)
         {
             MainGrid.Children.Clear(); // 메인그리드의 Children Clear
@@ -71,6 +79,9 @@ namespace WpfApplication1
         // [ImageSearch] 검색 버튼을 눌렀을 때
         private void btn_search_Click(object sender, RoutedEventArgs e)
         {
+            // 이미지 리스트 초기화 (안해주면 이미지 refresh가 안됨)
+            imageList.Clear();
+
             // 버튼을 눌렀을때 시간 저장
             var dateNow = DateTime.Now;
 
@@ -99,8 +110,6 @@ namespace WpfApplication1
             // 이미지 경로를 저장하기 위한 List
             XmlNodeList imageUrlList = doc.GetElementsByTagName("thumbnail");
 
-            // 이미지 썸네일을 저장하기 위한 List
-            List<Image> imageList = new List<Image>();
 
             // 썸네일을 Wrap Panel 에 뿌려줌
             for (int i = 0; i < Convert.ToInt32(imageNum); i++)
@@ -109,7 +118,6 @@ namespace WpfApplication1
                 image.Source = LoadImage(imageUrlList[i].InnerText);
                 image.Height = 100;
                 image.Width = 100;
-
                 imageList.Add(image);
 
                 imageSearch.wp.Children.Add(imageList[i]);
@@ -148,6 +156,22 @@ namespace WpfApplication1
             cmd.ExecuteNonQuery();
 
             conn.Close();
+        }
+
+        // 더블클릭 이벤트 발생시
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                var clickedImage = (Image)e.OriginalSource;
+                Image newimage = new Image();
+                newimage.Source = clickedImage.Source;
+
+                imagewindow.wp.Children.Clear();
+                imagewindow.wp.Children.Add(newimage);
+                imagewindow.Hide();
+
+            }
         }
 
 
