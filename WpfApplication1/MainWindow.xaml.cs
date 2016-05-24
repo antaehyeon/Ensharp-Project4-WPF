@@ -19,6 +19,7 @@ using System.IO;
 using MySql.Data.MySqlClient;
 using MySql.Data;
 using System.Data;
+using System.Reflection;
 
 namespace WpfApplication1
 {
@@ -27,7 +28,6 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
-        ImageWindow imagewindow = new ImageWindow();
         MainControl mainControl = new MainControl();
         ImageSearch imageSearch = new ImageSearch();
         RecentControl recentControl = new RecentControl();
@@ -35,6 +35,9 @@ namespace WpfApplication1
         MySqlConnection conn;
         MySqlCommand cmd;
         List<Image> imageList;
+
+        //TEST
+        string imageNum = "";
 
         // 메인 창
         public MainWindow()
@@ -108,19 +111,36 @@ namespace WpfApplication1
 
 
             // 이미지 경로를 저장하기 위한 List
+            // imageCount : API로 이미지를 받아온 갯수
+            // error : 에러체크 값
             XmlNodeList imageUrlList = doc.GetElementsByTagName("thumbnail");
+            int imageCount = imageUrlList.Count;
+            bool error = false;
 
-
-            // 썸네일을 Wrap Panel 에 뿌려줌
-            for (int i = 0; i < Convert.ToInt32(imageNum); i++)
+            while(true)
             {
-                Image image = new Image();
-                image.Source = LoadImage(imageUrlList[i].InnerText);
-                image.Height = 100;
-                image.Width = 100;
-                imageList.Add(image);
+                // 이미지 출력설정갯수와 받아오는 이미지갯수가 다를경우
+                if (imageCount != int.Parse(imageNum))
+                {
+                    // 에러로 판별 후 메세지박스와 함께 해당 갯수의 이미지만 띄워준다
+                    error = true;
+                    MessageBox.Show("이미지를 " + imageCount + "개 밖에 불러올수 없네요 :(");
+                    for (int i = 0; i < imageCount; i++)
+                    {
+                        addImageInList(imageUrlList[i].InnerText, i);
+                    }
+                }
+                break;
+            }
 
-                imageSearch.wp.Children.Add(imageList[i]);
+            // 위에서 에러가 났을경우 수행안함
+            if (!error)
+            {
+                // 썸네일을 Wrap Panel 에 뿌려줌
+                for (int i = 0; i < Convert.ToInt32(imageNum); i++)
+                {
+                    addImageInList(imageUrlList[i].InnerText, i);
+                }
             }
 
             // DB OPEN
@@ -158,19 +178,40 @@ namespace WpfApplication1
             conn.Close();
         }
 
+        private void addImageInList(string imageUrl, int i)
+        {
+            Image image = new Image();
+            image.Source = LoadImage(imageUrl);
+            image.Height = 100;
+            image.Width = 100;
+            imageList.Add(image);
+            imageSearch.wp.Children.Add(imageList[i]);
+        }
+
         // 더블클릭 이벤트 발생시
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            ImageWindow imagewindow = new ImageWindow();
             if (e.ClickCount == 2)
             {
                 var clickedImage = (Image)e.OriginalSource;
+                int a = 0;
+                Type type = a.GetType();
+                FieldInfo [] fields = 
+                //var index = 
+                //var index = (Visual)e.OriginalSource)._parentIndex;
+                //(System.Windows.Media.Visual)
                 Image newimage = new Image();
                 newimage.Source = clickedImage.Source;
+                //for (int i = 0; i < int.Parse(imageNum); i++)
+                //{
+                //    //if(clickedImage.Source == 
+                //}
 
                 imagewindow.wp.Children.Clear();
                 imagewindow.wp.Children.Add(newimage);
-                imagewindow.Hide();
-
+                imagewindow.Topmost = true;
+                imagewindow.Show();
             }
         }
 
@@ -239,5 +280,14 @@ namespace WpfApplication1
 
             return bimgTemp;
         }
+
+        //public void test ()
+        //{
+        //    BitmapImage n_img = new BitmapImage(new Uri(imgList[i].InnerText));
+        //    Image img_new = new Image();
+        //    img_new.Source = n_img;
+        //    imgview.Children.Add(img_new);
+        //}
+
     }
 }
