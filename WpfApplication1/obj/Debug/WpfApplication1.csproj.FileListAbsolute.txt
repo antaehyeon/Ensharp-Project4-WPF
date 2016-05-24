@@ -59,3 +59,5 @@ C:\Users\Administrator\Documents\Ensharp-Project4-WPF\WpfApplication1\obj\Debug\
 C:\Users\Administrator\Documents\Ensharp-Project4-WPF\WpfApplication1\obj\Debug\WpfApplication1.csproj.GenerateResource.Cache
 C:\Users\Administrator\Documents\Ensharp-Project4-WPF\WpfApplication1\obj\Debug\ImageWindow.g.cs
 C:\Users\Administrator\Documents\Ensharp-Project4-WPF\WpfApplication1\obj\Debug\ImageWindow.baml
+C:\Users\Taehyeon AN\Documents\Ensharp-Project4-WPF\WpfApplication1\obj\Debug\ImageWindow.g.cs
+C:\Users\Taehyeon AN\Documents\Ensharp-Project4-WPF\WpfApplication1\obj\Debug\ImageWindow.baml

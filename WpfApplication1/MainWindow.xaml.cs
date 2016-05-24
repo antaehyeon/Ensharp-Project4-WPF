@@ -19,7 +19,6 @@ using System.IO;
 using MySql.Data.MySqlClient;
 using MySql.Data;
 using System.Data;
-using System.Reflection;
 
 namespace WpfApplication1
 {
@@ -35,9 +34,6 @@ namespace WpfApplication1
         MySqlConnection conn;
         MySqlCommand cmd;
         List<Image> imageList;
-
-        //TEST
-        string imageNum = "";
 
         // 메인 창
         public MainWindow()
@@ -62,7 +58,6 @@ namespace WpfApplication1
             imageList = new List<Image>();
 
             imageSearch.wp.MouseDown += Image_MouseDown;
-
         }
 
         // [MainWindow] 이미지 검색 버튼을 눌렀을 때
@@ -132,7 +127,6 @@ namespace WpfApplication1
                 }
                 break;
             }
-
             // 위에서 에러가 났을경우 수행안함
             if (!error)
             {
@@ -182,6 +176,7 @@ namespace WpfApplication1
         {
             Image image = new Image();
             image.Source = LoadImage(imageUrl);
+            // Wrap Panel 에 뿌려주는 이미지의 크기조정
             image.Height = 100;
             image.Width = 100;
             imageList.Add(image);
@@ -194,22 +189,29 @@ namespace WpfApplication1
             ImageWindow imagewindow = new ImageWindow();
             if (e.ClickCount == 2)
             {
+                // 해당 이미지의 소스를 가져옴
                 var clickedImage = (Image)e.OriginalSource;
-                int a = 0;
-                Type type = a.GetType();
-                FieldInfo [] fields = 
-                //var index = 
-                //var index = (Visual)e.OriginalSource)._parentIndex;
-                //(System.Windows.Media.Visual)
-                Image newimage = new Image();
-                newimage.Source = clickedImage.Source;
-                //for (int i = 0; i < int.Parse(imageNum); i++)
-                //{
-                //    //if(clickedImage.Source == 
-                //}
+                // 안해주면 Error
+                Image newImage = new Image();
+                newImage.Source = clickedImage.Source;
 
+                // 해당 이미지의 Pixel Height 와 Width 를 추출
+                var PixelHeight = ((System.Windows.Media.Imaging.BitmapSource)newImage.Source).PixelHeight;
+                var PixelWidth = ((System.Windows.Media.Imaging.BitmapSource)newImage.Source).PixelWidth;
+
+                // 사이즈에 맞게 윈도우창 크기와 WrapPanel 크기를 조정
+                imagewindow.wp.Width = imagewindow.img_window.Width = 7 * PixelWidth;
+                imagewindow.wp.Height = imagewindow.img_window.Height = 7 * PixelHeight;
+
+                // 사진을 패널에 맞게 꽉 채움
+                newImage.Stretch = Stretch.Fill;
+                
+                // 이미지를 보여줌
+                // Topmost = 창을 가장위로 뜨게함
                 imagewindow.wp.Children.Clear();
-                imagewindow.wp.Children.Add(newimage);
+                // 위에서 Image로 따로 선언 안해주면 해당 에러 발생
+                // "지정한 요소가 이미 다른 요소의 논리 자식입니다. 먼저 이 연결을 끊으십시오."
+                imagewindow.wp.Children.Add(newImage);
                 imagewindow.Topmost = true;
                 imagewindow.Show();
             }
@@ -280,14 +282,5 @@ namespace WpfApplication1
 
             return bimgTemp;
         }
-
-        //public void test ()
-        //{
-        //    BitmapImage n_img = new BitmapImage(new Uri(imgList[i].InnerText));
-        //    Image img_new = new Image();
-        //    img_new.Source = n_img;
-        //    imgview.Children.Add(img_new);
-        //}
-
     }
 }
